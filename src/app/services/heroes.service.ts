@@ -16,10 +16,7 @@ export class HeroesService {
 
   nuevoHeroe (heroe: Heroe) {
     let body = JSON.stringify(heroe);
-    // let httpOptions = new HttpHeaders({
-    //   'Content-Type': 'application/json',
-    // });
-    const httpOptions = {
+    let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
       })
@@ -33,6 +30,10 @@ export class HeroesService {
   getHeroe ( key$: string ) {
     let url = `${ this.heroeUrl }/${ key$ }.json`;
     return this.http.get( url )
+    .pipe(map(res => res ));
+  }
+  getHeroes ( ) {
+    return this.http.get( this.fireUrl )
     .pipe(map(res => res ));
   }
 
@@ -49,6 +50,12 @@ export class HeroesService {
     return this.http.put<Heroe>( url, body, httpOptions).pipe(map( res => {
       return res;
     }));
+  }
+
+  borrarHeroe( key$: string ) {
+    let url = `${this.heroeUrl}/${ key$ }.json`;
+    return this.http.delete( url )
+    .pipe(map( res => res ));
   }
 
 
